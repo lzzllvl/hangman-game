@@ -28,7 +28,7 @@ h1, h2, h3 {
   width: 20%;
   float: right;
 }
-li#secret-word {
+li {
   display: inline;
 }
 
