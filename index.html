@@ -9,26 +9,39 @@
     <title>Hangman</title>
   </head>
   <body>
-    <!--header-->
-    <header>
-      <h1>Hangman</h1>
-    </header>
-    <!--main container-->
-    <section>
-      <!--game section-->
+    <section class="main-container">
+      <!--header-->
+      <header>
+        <h1>Hangman</h1>
+        <h2> style TBD</h2>
+        <h3>Ready to play?</h4>
+      </header>
+      <!--main container-->
       <section>
+        <!--game section-->
+        <section id="game">
+          <img src="#" alt="Game Photo">
+          <h5>Press Any Key to Start!</h5>
+          <br><br>
+          <h5>Secret Word:</h5>
+          <ul id="secret-word">
+          </ul>
 
+        </section>
+      <!--game data aside-->
+        <aside id="data">
+          <h5 id="wins"> Wins: </h5>
+          <h5 id="loses"> Losses: </h5>
+
+
+        </aside>
       </section>
-    <!--game data aside-->
-      <aside>
-
-      </aside>
+      <div class="push"></div>
     </section>
     <!--footer-->
-    <footer>
-      # copyright data
+    <footer id="footer">
+      <p>&copy; Copyright 2017 - Gregory Lee</p>
     </footer>
-
   </body>
   <script type="text/javascript" src="assets/javascript/hangman.js"></script>
 </html>
