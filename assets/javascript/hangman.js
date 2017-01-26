@@ -15,14 +15,16 @@ var Hangman = {
   secretWordLength: function() { return this.secretWord.length;},
   //guess methods
   isValidGuess: function(keyPress){
+    //returns true is guess is actually a letter, false otherwise
                   if(keyPress.search(/[A-Za-z]/) != -1){
                     return true;
                   } else {
                     return false;
                   }
                 },
-  guessMade: function(keyPress) {
-                guessTotal += 1;
+  guessMade: function() {
+    //increment guess total
+                this.guessTotal++;
               },
   isCorrectGuess: function(char){
     //takes a char and returns an array, i0 = char, i1 = index of guess or false, i+ = recurring indexes
@@ -68,7 +70,7 @@ function playGame(){
 function updateGuessHTML(game){
   //update guess total
   document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
-  
+
 }
 
 function updateScoreHTML(game) {
