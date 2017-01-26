@@ -57,23 +57,41 @@ var Hangman = {
 var game = Hangman;
 //create initial html
 
-
-
-function playGame(){
-  var Game = game;
-  Game.getSecretWord();
-  var result = Game.isCorrectGuess("b");
-  console.log(result);
-  console.log(Game.isCorrectGuess("a"));
+function createBlanks(game){
+  var num = game.secretWordLength();
+  var word = game.secretWord;
+  for (var i = 0; i < num; i++){
+    var guessNodeId = "blank" + i;
+    var node = document.createElement("LI");
+    node.id = guessNodeId;
+    //check for spaces
+    if(word[i] == " "){
+      node.appendChild(document.createTextNode("\u00A0 \u00A0"));
+      document.getElementById('secret-word').appendChild(node);
+    } else {
+      node.appendChild(document.createTextNode("_ "));
+      document.getElementById('secret-word').appendChild(node);
+    }
+  }
 }
 
 function updateGuessHTML(game){
   //update guess total
   document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
-
 }
 
 function updateScoreHTML(game) {
   document.getElementById('wins').innerHTML = "Wins: <br> " + game.wins;
   document.getElementById('losses').innerHTML = "Losses: <br> " + game.losses;
+}
+
+function playGame(){
+  var Game = game;
+  Game.getSecretWord();
+  createBlanks(game);
+  //find the length of secret word and print _ for each
+
+  var result = Game.isCorrectGuess("b");
+  console.log(result);
+  console.log(Game.isCorrectGuess("a"));
 };
