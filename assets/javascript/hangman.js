@@ -6,10 +6,10 @@ var MAX_TRIES = 15;
 function Hangman() {
   this.wins = 0;
   this.losses = 0;
-  this.secretWordArray = ["arrakis", "dune", "metaverse", "snow crash", "yours truly" ];
+  this.secretWordArray = ["Arrakis", "Dune", "Metaverse", "Snow Crash", "Yours Truly" ];
   this.secretWord = "";
   this.guessTotal = 0;
-
+  this.guessedLetters = [];
 
   //methods
   this.getSecretWord = function(){ this.secretWord = this.secretWordArray.shift();};
@@ -18,7 +18,8 @@ function Hangman() {
   //guess methods
   this.isValidGuess = function(keyPress){
     //returns true is guess is actually a letter, false otherwise
-                  if(keyPress.search(/[a-z]/) != -1){
+                  if((keyPress.search(/[a-z]/) != -1) && (!this.guessedLetters.includes(keyPress)) ){
+                    this.guessedLetters.push(keyPress);
                     return true;
                   } else {
                     return false;
@@ -33,7 +34,7 @@ function Hangman() {
                     var indicesArray = [];
                     indicesArray.push(char);
                     for(var i = 0, l = this.secretWordLength(); i < l; i++){
-                      if (char === this.secretWord[i]) {
+                      if (char === this.secretWord[i].toLowerCase()) {
                          indicesArray.push(i);
                       } else if (i === (l - 1) && indicesArray.length === 1) {
                         indicesArray.push(false);
@@ -87,12 +88,12 @@ function updateGuessHTML(game, keyPress){
   for(var i = 1; i < g.length; i++){
     if (g[i] !== false) {
       var blankId = "blank" + g[i];
-      document.getElementById(blankId).innerHTML = g[0];
+      document.getElementById(blankId).innerHTML = game.secretWord[g[i]];
     } else {
       var incorrectNodeId = "incorrect" + i;
       var n = document.createElement("LI");
       n.id = incorrectNodeId;
-      n.appendChild(document.createTextNode(g[0]));
+      n.appendChild(document.createTextNode(g[0] + "\u00A0" ));
       document.getElementById("incorrect-guesses").appendChild(n);
     }
   }

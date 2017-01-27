@@ -2,6 +2,7 @@ html, body {
   text-align: center;
   width: 100%;
   height: 100%;
+
 }
 
 header {
@@ -18,18 +19,26 @@ h1, h2, h3 {
 }
 
 #game {
+  font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 24px;
+  line-height: 32px;
   width: 70%;
   float: left;
   margin: auto;
 }
 
 #data {
+  font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
   margin: auto;
   width: 20%;
   float: right;
 }
 li {
+
   display: inline;
+
 }
 
 
