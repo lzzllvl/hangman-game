@@ -6,19 +6,24 @@ var MAX_TRIES = 15;
 function Hangman() {
   this.wins = 0;
   this.losses = 0;
-  this.secretWordArray = ["Arrakis", "Dune", "Metaverse", "Snow Crash", "Yours Truly" ];
+  this.secretWordArray = ["Snow Crash", "Arrakis", "Dune", "Metaverse", "Yours Truly", "Jules Verne", "Neal Stephenson", "Frank Hebert", "Ready Player One", "Hiro Protagonist", "Paul Atreides", "Monsieur Arronax", "Captain Nemo", "Andy Weir", "Mark Watney", "Parzival", "The Martian", "Ned Land", "Anathem", "Fraa Erasmas", "Twenty Thousand Leagues Under The Sea", "H G Wells", "The Time Machine", "Doctor Moreau", "Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "Mustapha Mond", "George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth" ];
   this.secretWord = "";
   this.guessTotal = 0;
   this.guessedLetters = [];
 
   //methods
-  this.getSecretWord = function(){ this.secretWord = this.secretWordArray.shift();};
+  this.getSecretWord = function(){
+                          this.secretWord = this.secretWordArray.splice(Math.floor(Math.random() * this.secretWordArray.length), 1 );
+                          this.secretWord = this.secretWord.toString();
+                          console.log(this.secretWord);
+                        }
+                        
   this.secretWordLength =  function() { return this.secretWord.length;};
 
   //guess methods
   this.isValidGuess = function(keyPress){
-    //returns true is guess is actually a letter, false otherwise
-                  if((keyPress.search(/[a-z]/) != -1) && (!this.guessedLetters.includes(keyPress)) ){
+    //returns true is guess is actually a letter and hasn't been guessed, false otherwise
+                  if((keyPress.search(/[a-z]/) != -1) && (!this.guessedLetters.includes(keyPress))){
                     this.guessedLetters.push(keyPress);
                     return true;
                   } else {
