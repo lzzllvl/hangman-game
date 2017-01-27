@@ -1,6 +1,7 @@
 // global declarations
 var MAX_TRIES = 15;
 
+
 // game object constructor
 function Hangman() {
   this.wins = 0;
@@ -17,7 +18,7 @@ function Hangman() {
   //guess methods
   this.isValidGuess = function(keyPress){
     //returns true is guess is actually a letter, false otherwise
-                  if(keyPress.search(/[A-Za-z]/) != -1){
+                  if(keyPress.search(/[a-z]/) != -1){
                     return true;
                   } else {
                     return false;
@@ -102,12 +103,20 @@ function updateScoreHTML(game) {
   document.getElementById('losses').innerHTML = "Losses: <br> " + game.losses;
 }
 
-function playGame(game){
+
+var pressed = "";
+
+function setUp(game){
   game.getSecretWord();
   createBlanks(game);
-  //find the length of secret word and print _ for each
+  updateScoreHTML(game);
+}
 
-  var result = game.isCorrectGuess("b");
-  console.log(result);
-  console.log(game.isCorrectGuess("a"));
+function playGame(game){
+  if(game.isValidGuess(pressed)){
+  updateGuessHTML(game, pressed);
+  }
 };
+
+setUp(game);
+document.onkeypress = function(event){pressed = String.fromCharCode(event.charCode); playGame(game);};
