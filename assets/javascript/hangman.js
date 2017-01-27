@@ -1,32 +1,33 @@
 // global declarations
 var MAX_TRIES = 15;
 
-// game object
-var Hangman = {
-  wins: 0,
-  losses: 0,
-  secretWordArray: ["arrakis", "dune", "metaverse", "snow crash", "" ],
-  secretWord: "",
-  guessTotal: 0,
+// game object constructor
+function Hangman() {
+  this.wins = 0;
+  this.losses = 0;
+  this.secretWordArray = ["arrakis", "dune", "metaverse", "snow crash", "yours truly" ];
+  this.secretWord = "";
+  this.guessTotal = 0;
 
 
   //methods
-  getSecretWord: function(){ this.secretWord = this.secretWordArray.shift();},
-  secretWordLength: function() { return this.secretWord.length;},
+  this.getSecretWord = function(){ this.secretWord = this.secretWordArray.shift();};
+  this.secretWordLength =  function() { return this.secretWord.length;};
+
   //guess methods
-  isValidGuess: function(keyPress){
+  this.isValidGuess = function(keyPress){
     //returns true is guess is actually a letter, false otherwise
                   if(keyPress.search(/[A-Za-z]/) != -1){
                     return true;
                   } else {
                     return false;
                   }
-                },
-  guessMade: function() {
+                };
+  this.guessMade = function() {
     //increment guess total
                 this.guessTotal++;
-              },
-  isCorrectGuess: function(char){
+              };
+  this.isCorrectGuess = function(char){
     //takes a char and returns an array, i0 = char, i1 = index of guess or false, i+ = recurring indexes
                     var indicesArray = [];
                     indicesArray.push(char);
@@ -38,7 +39,8 @@ var Hangman = {
                       }
                     }
                     return indicesArray;
-                  },
+                  };
+
   /**isGameOver: function() {
   //returns true if max tries has been reached or all letters have been guessed
                      if(guessTotal === MAX_TRIES){
@@ -54,7 +56,7 @@ var Hangman = {
 
 //calls
 
-var game = Hangman;
+var game = new Hangman();
 //create initial html
 
 function createBlanks(game){
@@ -75,9 +77,24 @@ function createBlanks(game){
   }
 }
 
-function updateGuessHTML(game){
+function updateGuessHTML(game, keyPress){
   //update guess total
+  game.guessMade();
   document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
+  // update for correct guesses and incorrect guess
+  var g = game.isCorrectGuess(keyPress);
+  for(var i = 1; i < g.length; i++){
+    if (g[i] !== false) {
+      var blankId = "blank" + g[i];
+      document.getElementById(blankId).innerHTML = g[0];
+    } else {
+      var incorrectNodeId = "incorrect" + i;
+      var n = document.createElement("LI");
+      n.id = incorrectNodeId;
+      n.appendChild(document.createTextNode(g[0]));
+      document.getElementById("incorrect-guesses").appendChild(n);
+    }
+  }
 }
 
 function updateScoreHTML(game) {
@@ -85,13 +102,12 @@ function updateScoreHTML(game) {
   document.getElementById('losses').innerHTML = "Losses: <br> " + game.losses;
 }
 
-function playGame(){
-  var Game = game;
-  Game.getSecretWord();
+function playGame(game){
+  game.getSecretWord();
   createBlanks(game);
   //find the length of secret word and print _ for each
 
-  var result = Game.isCorrectGuess("b");
+  var result = game.isCorrectGuess("b");
   console.log(result);
-  console.log(Game.isCorrectGuess("a"));
+  console.log(game.isCorrectGuess("a"));
 };
