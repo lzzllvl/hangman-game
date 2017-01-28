@@ -115,11 +115,28 @@ function updateScoreHTML(game) {
   document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
 }
 
+function resetPrevious(){
+  var children = document.getElementsByClassName("previous")
+  var parent = document.getElementById('initial');
+  while(children[0] != undefined){
+    parent.removeChild(children[0]);
+  }
+}
+
 function resetHTML(game){
+  //this function needs a rework for increased functionality
+  resetPrevious();
   for(var i = 0; i < game.secretWordLength(); i++){
     var parent = document.getElementById('secret-word');
     var id = "blank" + i;
     var child = document.getElementById(id);
+    //moving the guessed nodes to the top, so it is displayed while next set is played
+    var clone = child.cloneNode(true);
+    clone.id = "previous" + i;
+    clone.className = "previous";
+
+    newParent = document.getElementById('initial');
+    newParent.appendChild(clone);
     parent.removeChild(child);
   }
   var jparent = document.getElementById('incorrect-guesses');
