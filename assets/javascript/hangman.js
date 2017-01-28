@@ -23,45 +23,45 @@ function Hangman() {
   //guess methods
   this.isValidGuess = function(keyPress){
     //returns true is guess is actually a letter and hasn't been guessed, false otherwise
-                  if((keyPress.search(/[a-z]/) != -1) && (!this.guessedLetters.includes(keyPress))){
-                    this.guessedLetters.push(keyPress);
-                    return true;
-                  } else {
-                    return false;
-                  }
-                };
+                        if((keyPress.search(/[a-z]/) != -1) && (!this.guessedLetters.includes(keyPress))){
+                          this.guessedLetters.push(keyPress);
+                          return true;
+                        } else {
+                          return false;
+                        }
+                      };
   this.guessMade = function() { this.guessTotal++;};
     //increment guess total
 
   this.isCorrectGuess = function(char){
     //takes a char and returns an array, i0 = char, i1 = index of guess or false, i+ = recurring indices
-                    var indicesArray = [];
-                    indicesArray.push(char);
-                    for(var i = 0, l = this.secretWordLength(); i < l; i++){
-                      if (char === this.secretWord[i].toLowerCase()) {
-                         indicesArray.push(i);
-                      } else if (i === (l - 1) && indicesArray.length === 1) {
-                        indicesArray.push(false);
-                      }
-                    }
-                    return indicesArray;
-                  };
+                          var indicesArray = [];
+                          indicesArray.push(char);
+                          for(var i = 0, l = this.secretWordLength(); i < l; i++){
+                            if (char === this.secretWord[i].toLowerCase()) {
+                               indicesArray.push(i);
+                            } else if (i === (l - 1) && indicesArray.length === 1) {
+                              indicesArray.push(false);
+                            }
+                          }
+                          return indicesArray;
+                        };
 
   this.isGameWonOrLost = function() {
-  //returns an array w/ true @ index1 if max tries has been reached or all letters have been guessed
-                    for(var i = 0, letterCheck = 0; i < this.secretWord.length; i++){
-                      if(this.guessedLetters.indexOf(this.secretWord[i].toLowerCase()) !== -1){
-                        letterCheck++;
-                      };
-                    }
-                     if(this.guessTotal === MAX_TRIES){
-                       return ["l" ,true];
-                     } else if (letterCheck == this.secretWord.length) {
-                       return ["w", true];
-                     } else {
-                       return [null, false];//this is an array so the boolean index matches
-                     }
-                   };
+//returns an array w/ true @ index1 if max tries has been reached or all letters have been guessed
+                            for(var i = 0, letterCheck = 0; i < this.secretWord.length; i++){
+                              if(this.guessedLetters.indexOf(this.secretWord[i].toLowerCase()) !== -1){
+                                letterCheck++;
+                              };
+                            }
+                             if(this.guessTotal === MAX_TRIES){
+                               return ["l" ,true];
+                             } else if (letterCheck == this.secretWord.length) {
+                               return ["w", true];
+                             } else {
+                               return [null, false];//this is an array so the boolean index matches
+                             }
+                           };
 
 }
 
@@ -70,6 +70,7 @@ function Hangman() {
 
 var game = new Hangman();
 //create initial html
+
 
 function createBlanks(game){
   var num = game.secretWordLength();
@@ -111,7 +112,7 @@ function updateGuessHTML(game, keyPress){
 function updateScoreHTML(game) {
   document.getElementById('wins').innerHTML = "Wins: <br> " + game.wins;
   document.getElementById('losses').innerHTML = "Losses: <br> " + game.losses;
-    document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
+  document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
 }
 
 function resetHTML(game){
@@ -157,15 +158,14 @@ function playGame(game, gameOn){
 
 
 //image hints todo
-
 setUp(game);
 var pressed = "";
 var gameOn = game.isGameWonOrLost();
 document.onkeypress = function(){
                         document.getElementById("initial").innerHTML = "";
                         document.onkeypress = function(event){
-                        pressed = String.fromCharCode(event.charCode);
-                        gameOn = game.isGameWonOrLost();
-                        playGame(game, gameOn);
-                       };
+                                                pressed = String.fromCharCode(event.charCode);
+                                                gameOn = game.isGameWonOrLost();
+                                                playGame(game, gameOn);
+                                               };
                      }
