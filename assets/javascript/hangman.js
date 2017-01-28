@@ -30,10 +30,9 @@ function Hangman() {
                     return false;
                   }
                 };
-  this.guessMade = function() {
+  this.guessMade = function() { this.guessTotal++;};
     //increment guess total
-                this.guessTotal++;
-              };
+
   this.isCorrectGuess = function(char){
     //takes a char and returns an array, i0 = char, i1 = index of guess or false, i+ = recurring indices
                     var indicesArray = [];
@@ -49,8 +48,7 @@ function Hangman() {
                   };
 
   this.isGameWonOrLost = function() {
-  //returns true if max tries has been reached or all letters have been guessed
-
+  //returns an array w/ true @ index1 if max tries has been reached or all letters have been guessed
                     for(var i = 0, letterCheck = 0; i < this.secretWord.length; i++){
                       if(this.guessedLetters.indexOf(this.secretWord[i].toLowerCase()) !== -1){
                         letterCheck++;
@@ -61,7 +59,7 @@ function Hangman() {
                      } else if (letterCheck == this.secretWord.length) {
                        return ["w", true];
                      } else {
-                       return [null, false];
+                       return [null, false];//this is an array so the boolean index matches
                      }
                    };
 
@@ -91,7 +89,6 @@ function createBlanks(game){
   }
 }
 
-
 function updateGuessHTML(game, keyPress){
   //update guess total
   game.guessMade();
@@ -114,6 +111,7 @@ function updateGuessHTML(game, keyPress){
 function updateScoreHTML(game) {
   document.getElementById('wins').innerHTML = "Wins: <br> " + game.wins;
   document.getElementById('losses').innerHTML = "Losses: <br> " + game.losses;
+    document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
 }
 
 function resetHTML(game){
@@ -126,13 +124,12 @@ function resetHTML(game){
   var jparent = document.getElementById('incorrect-guesses');
   var jClassName = "incorrect"
   var jchild = document.getElementsByClassName("incorrect");
-  for(var j = 0; j < jchild.length; j++){
-    jparent.removeChild(jchild[j]);
+
+  //jchild gets shorter after removeChild, so if there is no index 0 it will be undefined
+  while(jchild[0] != undefined) {
+    jparent.removeChild(jchild[0]);
   }
 }
-var pressed = "";
-
-
 
 function setUp(game){
   game.getSecretWord();
@@ -140,9 +137,7 @@ function setUp(game){
   updateScoreHTML(game);
 }
 
-function playGame(game){
-  var gameOn = game.isGameWonOrLost()
-  console.log(gameOn);
+function playGame(game, gameOn){
   if(!gameOn[1]){
     if(game.isValidGuess(pressed)){
       updateGuessHTML(game, pressed);
@@ -153,15 +148,24 @@ function playGame(game){
     } else {
       game.losses++;
     }
-    game.guessTotal = 0;
-    game.guessedLetters = [" ",];
     resetHTML(game);
+    game.guessTotal = 0;
+    game.guessedLetters = [" ",]; //back to original value
     setUp(game);
   }
 };
 
+
+//image hints todo
+
 setUp(game);
-document.onkeypress = function(event){
+var pressed = "";
+var gameOn = game.isGameWonOrLost();
+document.onkeypress = function(){
+                        document.getElementById("initial").innerHTML = "";
+                        document.onkeypress = function(event){
                         pressed = String.fromCharCode(event.charCode);
-                        playGame(game);
+                        gameOn = game.isGameWonOrLost();
+                        playGame(game, gameOn);
                        };
+                     }
