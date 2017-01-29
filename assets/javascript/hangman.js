@@ -7,7 +7,7 @@ var MAX_TRIES = 15;
 function Hangman() {
   this.wins = 0;
   this.losses = 0;
-  this.secretWordArray = ["Snow Crash", "Arrakis", "Dune", "Metaverse", "Yours Truly", "Jules Verne", "Neal Stephenson", "Frank Hebert", "Ready Player One", "Hiro Protagonist", "Paul Atreides", "Monsieur Arronax", "Captain Nemo", "Andy Weir", "Mark Watney", "Parzival", "The Martian", "Ned Land", "Anathem", "Fraa Erasmas", "Twenty Thousand Leagues Under The Sea", "H G Wells", "The Time Machine", "Doctor Moreau", "Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "Mustapha Mond", "George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth", "SevenEves", "Kath Two", "Dinah MacQuarie" ];
+  this.secretWordArray = ["Snow Crash", "Arrakis", "Dune", "Metaverse", "Yours Truly", "Jules Verne", "Earnest Cline" , "Neal Stephenson", "Frank Hebert", "Ready Player One", "Hiro Protagonist", "Paul Atreides", "Monsieur Arronax", "Captain Nemo", "Andy Weir", "Mark Watney", "Parzival", "The Martian", "Ned Land", "Anathem", "Fraa Erasmas", "Twenty Thousand Leagues Under The Sea", "H G Wells", "The Time Machine", "Doctor Moreau", "Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "Mustapha Mond", "George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth", "SevenEves", "Kath Two", "Dinah MacQuarie" ];
   this.secretWord = "";
   this.guessTotal = 0;
   this.guessedLetters = [" ",]; // the space is needed for isGameWonOrLost()
@@ -54,23 +54,67 @@ function Hangman() {
                                 letterCheck++;
                               };
                             }
-                             if(this.guessTotal === MAX_TRIES){
-                               return ["l" ,true];
-                             } else if (letterCheck == this.secretWord.length) {
-                               return ["w", true];
-                             } else {
-                               return [null, false];//this is an array so the boolean index matches
-                             }
+                            if(this.guessTotal === MAX_TRIES){
+                             return ["l" ,true];
+                            } else if (letterCheck == this.secretWord.length) {
+                             return ["w", true];
+                            } else {
+                             return [null, false];//this is an array so the boolean index matches
+                            }
                            };
-
 }
 
 
 //calls
 
-var game = new Hangman();
-//create initial html
 
+
+/**
+  * The following area consists of functions for updating
+  * the page HTML according to the values in the current game/Hangman Object
+  */
+
+var imageCategories = {
+snow: ["Snow Crash", "Metaverse", "Yours Truly", "Hiro Protagonist"],
+neal: ["Neal Stephenson", "Anathem", "Fraa Erasmas", "SevenEves", "Kath Two", "Dinah MacQuarie"],
+dune: ["Arrakis", "Dune", "Frank Hebert", "Paul Atreides"],
+twenty: ["Jules Verne", "Monsieur Arronax", "Captain Nemo", "Ned Land", "Twenty Thousand Leagues Under The Sea"],
+ready: ["Ready Player One",  "Parzival", "Earnest Cline"],
+martian: ["Andy Weir", "Mark Watney",  "The Martian"],
+wells : ["H G Wells", "The Time Machine", "Doctor Moreau"],
+bravenewworld: ["Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "Mustapha Mond"],
+george: ["George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth"],
+find : function(secretWord){
+          for(key in this) {
+            if(this[key].indexOf(secretWord) !== -1){
+              return key;
+            }
+          }
+      }
+};
+
+function updateImage(game){
+  var n = imageCategories.find(game.secretWord);
+  if (key == 'snow'){
+    document.getElementById("image").setAttribute('src', 'assets/images/snow.jpg');
+  } else if (key == 'neal'){
+    document.getElementById("image").setAttribute('src', 'assets/images/neal.jpg');
+  } else if (key == 'dune'){
+    document.getElementById("image").setAttribute('src', 'assets/images/dune.jpg');
+  } else if (key == 'twenty'){
+    document.getElementById("image").setAttribute('src', 'assets/images/twenty.jpg');
+  } else if (key == 'ready'){
+    document.getElementById("image").setAttribute('src', 'assets/images/ready.jpg');
+  } else if (key == 'martian'){
+    document.getElementById("image").setAttribute('src', 'assets/images/martian.jpg');
+  } else if (key == 'wells'){
+    document.getElementById("image").setAttribute('src', 'assets/images/wells.png');
+  } else if (key == 'bravenewworld'){
+    document.getElementById("image").setAttribute('src', 'assets/images/bravenewworld.jpg');
+  } else if (key == 'george'){
+    document.getElementById("image").setAttribute('src', 'assets/images/1984.jpg');
+  }
+}
 
 function createBlanks(game){
   var num = game.secretWordLength();
@@ -96,6 +140,7 @@ function updateGuessHTML(game, keyPress){
   document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
   // update for correct guesses and incorrect guess
   var g = game.isCorrectGuess(keyPress);
+  //the return value of g from isCorrectGuess() is why this logic works
   for(var i = 1; i < g.length; i++){
     if (g[i] !== false) {
       var blankId = "blank" + g[i];
@@ -110,12 +155,14 @@ function updateGuessHTML(game, keyPress){
 }
 
 function updateScoreHTML(game) {
+  //updates the score html
   document.getElementById('wins').innerHTML = "Wins: <br> " + game.wins;
   document.getElementById('losses').innerHTML = "Losses: <br> " + game.losses;
   document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
 }
 
 function resetPrevious(){
+  //removes all children of the `previous` class
   var children = document.getElementsByClassName("previous")
   var parent = document.getElementById('initial');
   while(children[0] != undefined){
@@ -130,15 +177,11 @@ function resetHTML(game){
     var parent = document.getElementById('secret-word');
     var id = "blank" + i;
     var child = document.getElementById(id);
-    //moving the guessed nodes to the top, so it is displayed while next set is played
-    var clone = child.cloneNode(true);
-    clone.id = "previous" + i;
-    clone.className = "previous";
-
-    newParent = document.getElementById('initial');
-    newParent.appendChild(clone);
     parent.removeChild(child);
   }
+  //moving the guessed nodes to the top, so it is displayed while next set is played
+  var previous = game.secretWord;
+  document.getElementById('initial').innerHTML = previous;
   var jparent = document.getElementById('incorrect-guesses');
   var jClassName = "incorrect"
   var jchild = document.getElementsByClassName("incorrect");
@@ -161,6 +204,7 @@ function playGame(game, gameOn){
       updateGuessHTML(game, pressed);
     };
   } else {
+
     if(gameOn[0]== "w"){
       game.wins++;
     } else {
@@ -170,16 +214,22 @@ function playGame(game, gameOn){
     game.guessTotal = 0;
     game.guessedLetters = [" ",]; //back to original value
     setUp(game);
+    updateImage(game);
   }
 };
 
 
 //image hints todo
+
+
+//calls
+var game = new Hangman();
 setUp(game);
 var pressed = "";
 var gameOn = game.isGameWonOrLost();
 document.onkeypress = function(){
                         document.getElementById("initial").innerHTML = "";
+                        updateImage(game);
                         document.onkeypress = function(event){
                                                 pressed = String.fromCharCode(event.charCode);
                                                 gameOn = game.isGameWonOrLost();

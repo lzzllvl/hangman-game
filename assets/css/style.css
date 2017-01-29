@@ -36,9 +36,13 @@ h2 {
 
 }
 
+img {
+  height: 200px;
+  object-fit: cover;
+}
+
 .content-container {
   width: 960px;
-  height: 250px;
   margin: auto;
 }
 
@@ -49,7 +53,7 @@ h2 {
   color: white;
   width: 70%;
   float: left;
-  margin: auto;
+  margin: 0 auto 15px auto;
   background-color: black;
   border-style: solid;
   border-width: 3px;
@@ -86,6 +90,7 @@ li {
   margin: 0 auto -4em;
 }
 #footer {
+  clear:both;
   margin-top: 16px;
   border-style: outset;
   border-width: 7px 0px 0px 0px;
