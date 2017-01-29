@@ -1,7 +1,6 @@
 // global declarations
+
 var MAX_TRIES = 15;
-
-
 
 // game object constructor
 function Hangman() {
@@ -64,33 +63,30 @@ function Hangman() {
                            };
 }
 
-
-//calls
-
-
-
 /**
   * The following area consists of functions for updating
   * the page HTML according to the values in the current game/Hangman Object
+  * also the imageCategories object, which tests the secret word
+  * to find the appropriate hint image
   */
 
 var imageCategories = {
-snow: ["Snow Crash", "Metaverse", "Yours Truly", "Hiro Protagonist"],
-neal: ["Neal Stephenson", "Anathem", "Fraa Erasmas", "SevenEves", "Kath Two", "Dinah MacQuarie"],
-dune: ["Arrakis", "Dune", "Frank Hebert", "Paul Atreides"],
-twenty: ["Jules Verne", "Monsieur Arronax", "Captain Nemo", "Ned Land", "Twenty Thousand Leagues Under The Sea"],
-ready: ["Ready Player One",  "Parzival", "Earnest Cline"],
-martian: ["Andy Weir", "Mark Watney",  "The Martian"],
-wells : ["H G Wells", "The Time Machine", "Doctor Moreau"],
-bravenewworld: ["Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "Mustapha Mond"],
-george: ["George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth"],
-find : function(secretWord){
-          for(key in this) {
-            if(this[key].indexOf(secretWord) !== -1){
-              return key;
-            }
+    snow: ["Snow Crash", "Metaverse", "Yours Truly", "Hiro Protagonist"],
+    neal: ["Neal Stephenson", "Anathem", "Fraa Erasmas", "SevenEves", "Kath Two", "Dinah MacQuarie"],
+    dune: ["Arrakis", "Dune", "Frank Hebert", "Paul Atreides"],
+    twenty: ["Jules Verne", "Monsieur Arronax", "Captain Nemo", "Ned Land", "Twenty Thousand Leagues Under The Sea"],
+    ready: ["Ready Player One",  "Parzival", "Earnest Cline"],
+    martian: ["Andy Weir", "Mark Watney",  "The Martian"],
+    wells : ["H G Wells", "The Time Machine", "Doctor Moreau"],
+    bravenewworld: ["Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "Mustapha Mond"],
+    george: ["George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth"],
+    find : function(secretWord){
+              for(key in this) {
+                if(this[key].indexOf(secretWord) !== -1){
+                  return key;
+                }
+              }
           }
-      }
 };
 
 function updateImage(game){
@@ -161,18 +157,8 @@ function updateScoreHTML(game) {
   document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
 }
 
-function resetPrevious(){
-  //removes all children of the `previous` class
-  var children = document.getElementsByClassName("previous")
-  var parent = document.getElementById('initial');
-  while(children[0] != undefined){
-    parent.removeChild(children[0]);
-  }
-}
-
 function resetHTML(game){
-  //this function needs a rework for increased functionality
-  resetPrevious();
+
   for(var i = 0; i < game.secretWordLength(); i++){
     var parent = document.getElementById('secret-word');
     var id = "blank" + i;
@@ -181,7 +167,7 @@ function resetHTML(game){
   }
   //moving the guessed nodes to the top, so it is displayed while next set is played
   var previous = game.secretWord;
-  document.getElementById('initial').innerHTML = previous;
+  document.getElementById('prev').innerHTML = "Last Word: <br>" + previous;
   var jparent = document.getElementById('incorrect-guesses');
   var jClassName = "incorrect"
   var jchild = document.getElementsByClassName("incorrect");
@@ -219,15 +205,13 @@ function playGame(game, gameOn){
 };
 
 
-//image hints todo
-
-
 //calls
 var game = new Hangman();
 setUp(game);
 var pressed = "";
 var gameOn = game.isGameWonOrLost();
 document.onkeypress = function(){
+                        document.getElementById("hint").innerHTML = "Hint: <br>";
                         document.getElementById("initial").innerHTML = "";
                         updateImage(game);
                         document.onkeypress = function(event){

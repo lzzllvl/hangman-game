@@ -37,12 +37,12 @@ h2 {
 }
 
 img {
-  height: 200px;
+  height: 100px;
   object-fit: cover;
 }
 
 .content-container {
-  width: 960px;
+  width: 650px;
   margin: auto;
 }
 
@@ -51,8 +51,7 @@ img {
   font-size: 24px;
   line-height: 32px;
   color: white;
-  width: 70%;
-  float: left;
+  width: 100%;
   margin: 0 auto 15px auto;
   background-color: black;
   border-style: solid;
@@ -68,7 +67,7 @@ img {
   color: white;
   margin: auto;
   width: 20%;
-  float: right;
+  float: left;
   background-color: black;
   border-style: solid;
   border-width: 3px;
@@ -76,7 +75,23 @@ img {
   padding: 15px;
 }
 
-li {
+#play {
+  position: relative;
+  width: 70%;
+  display: inline;
+  left: 15px;
+}
+
+#prev {
+  width: 20%;
+}
+
+img#play, h5#play, ul#play {
+  position: absolute;
+}
+
+
+li, #secret-word, h5#play {
   display: inline;
 }
 
