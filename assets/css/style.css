@@ -8,16 +8,15 @@ html, body {
 header {
   width:100%;
   background-color: black;
+  margin-bottom: 31px;
   border-style: solid;
-  border-width: 0px 0px 5px 0px;
-  border-color: lightgray;
-  margin-bottom: 10px;
-  height: 75px;
-  padding-top: 25px;
+  border-bottom-width: 5px;
+  border-color:  #66ff33;
+
 }
 
 h1, h2, h3, h4, h5 {
-  color: white;
+  color: #66ff33;
 }
 
 h1 {
@@ -50,13 +49,13 @@ img {
   font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
   font-size: 24px;
   line-height: 32px;
-  color: white;
+  color: #66ff33;
   width: 100%;
   margin: 0 auto 15px auto;
   background-color: black;
   border-style: solid;
-  border-width: 3px;
-  border-color: lightgray;
+  border-width: 1px;
+  border-color: #B2E0A3;
   padding: 15px;
 }
 
@@ -64,14 +63,14 @@ img {
   font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
   font-size: 18px;
   line-height: 24px;
-  color: white;
+  color: #66ff33;
   margin: auto;
   width: 20%;
   float: left;
   background-color: black;
   border-style: solid;
   border-width: 3px;
-  border-color: lightgray;
+  border-color: #B2E0A3;
   padding: 15px;
 }
 
@@ -108,14 +107,14 @@ li, #secret-word, h5#play {
   clear:both;
   margin-top: 16px;
   border-style: outset;
-  border-width: 7px 0px 0px 0px;
-  border-color: lightgray;
+  border-width: 5px 0px 0px 0px;
+  border-color: #66ff33;
   background-color: black;
 }
 
 #footer p {
   text-align: center;
-  color: #D3D3D3;
+  color: #66ff33;
   font-size: 12px;
   padding-top: 30px;
 }
