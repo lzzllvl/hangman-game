@@ -1,5 +1,4 @@
 // global declarations
-
 var MAX_TRIES = 15;
 
 // game object constructor
@@ -21,7 +20,7 @@ function Hangman() {
 
   //guess methods
   this.isValidGuess = function(keyPress){
-    //returns true is guess is actually a letter and hasn't been guessed, false otherwise
+    //returns true is guess is a lowercase letter and hasn't been guessed, false otherwise
                         if((keyPress.search(/[a-z]/) != -1) && (!this.guessedLetters.includes(keyPress))){
                           this.guessedLetters.push(keyPress);
                           return true;
@@ -33,7 +32,9 @@ function Hangman() {
     //increment guess total
 
   this.isCorrectGuess = function(char){
-    //takes a char and returns an array, i0 = char, i1 = index of guess or false, i+ = recurring indices
+    //takes a char and returns an array, i0 = char,
+    // i1 = index of guess in secret word or false,
+    // i+ = recurring indices
                           var indicesArray = [];
                           indicesArray.push(char);
                           for(var i = 0, l = this.secretWordLength(); i < l; i++){
@@ -47,7 +48,9 @@ function Hangman() {
                         };
 
   this.isGameWonOrLost = function() {
-//returns an array w/ true @ index1 if max tries has been reached or all letters have been guessed
+    //returns an array w/ true @ index1
+    // if max tries has been reached or all letters have been guessed
+    // index0 is `w`, `l`, or `null` - corresponding to win, lose, or keep playing respectively
 
                             for(var i = 0, letterCheck = 0; i < this.secretWord.length; i++){
                               if(this.guessedLetters.indexOf(this.secretWord[i].toLowerCase()) !== -1){
@@ -89,7 +92,7 @@ var imageCategories = {
                   return key;
                 }
               }
-          }
+            }
 };
 
 function updateImage(game){
@@ -113,7 +116,7 @@ function updateImage(game){
   } else if (key == 'george'){
     document.getElementById("image").setAttribute('src', 'assets/images/1984.jpg');
   } else if (key == 'seven'){
-    document.getElementById("image").setAttribute('src', 'assets/images/seven.jpg')
+    document.getElementById("image").setAttribute('src', 'assets/images/seven.jpg');
   }
 }
 
@@ -139,9 +142,10 @@ function updateGuessHTML(game, keyPress){
   //update guess total
   game.guessMade();
   document.getElementById("left").innerHTML = "Guesses Left: <br>" + (MAX_TRIES - game.guessTotal);
-  // update for correct guesses and incorrect guess
   var g = game.isCorrectGuess(keyPress);
-  //the return value of g from isCorrectGuess() is why this logic works
+  // update for correct guesses and incorrect guess
+  //the return value assigned to g from isCorrectGuess() is why the following logic works
+  //skip index0 and the rest are the indices at which the guessed letters occur in the secret word
   for(var i = 1; i < g.length; i++){
     if (g[i] !== false) {
       var blankId = "blank" + g[i];
@@ -163,40 +167,42 @@ function updateScoreHTML(game) {
 }
 
 function resetHTML(game){
-
+  //reset html after a round has been played
   for(var i = 0; i < game.secretWordLength(); i++){
     var parent = document.getElementById('secret-word');
     var id = "blank" + i;
     var child = document.getElementById(id);
     parent.removeChild(child);
   }
-  //moving the guessed nodes to the top, so it is displayed while next set is played
+  //moving the guessed nodes to the last word area, so it is displayed while next set is played
   var previous = game.secretWord;
   document.getElementById('prev').innerHTML = "Last Word: <br>" + previous;
   var jparent = document.getElementById('incorrect-guesses');
-  var jClassName = "incorrect"
   var jchild = document.getElementsByClassName("incorrect");
 
-  //jchild gets shorter after removeChild, so if there is no index 0 it will be undefined
+  //jchild array gets shorter after removeChild, so if there is no index 0 it will be undefined
   while(jchild[0] != undefined) {
     jparent.removeChild(jchild[0]);
   }
 }
 
 function setUp(game){
+  //need a word to kick things off
   game.getSecretWord();
   createBlanks(game);
   updateScoreHTML(game);
 }
 
 function playGame(game){
+  //each time playGame is called, we need to know if the the word has been guessed already
   var gameOn = game.isGameWonOrLost();
+  // isGameWonOrLost() returns true at index1 if game is over
+  // and false if it is still being played so, !false - keep going
   if(!gameOn[1]){
     if(game.isValidGuess(pressed)){
       updateGuessHTML(game, pressed);
     };
   } else {
-
     if(gameOn[0]== "w"){
       game.wins++;
     } else {
@@ -209,21 +215,17 @@ function playGame(game){
     updateImage(game);
   }
 };
-
-
 //calls
 var game = new Hangman();
 setUp(game);
 var pressed = "";
 document.onkeypress = function(){
+                      //starting game
                         document.getElementById("hint").innerHTML = "Hint: <br>";
                         document.getElementById("initial").innerHTML = "";
                         updateImage(game);
                         document.onkeypress = function(event){
                                                 pressed = String.fromCharCode(event.charCode);
-
                                                 playGame(game);
-
                                                };
-
-                     }
+                                }
