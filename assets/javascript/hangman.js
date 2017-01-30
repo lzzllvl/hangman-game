@@ -48,19 +48,21 @@ function Hangman() {
 
   this.isGameWonOrLost = function() {
 //returns an array w/ true @ index1 if max tries has been reached or all letters have been guessed
+
                             for(var i = 0, letterCheck = 0; i < this.secretWord.length; i++){
                               if(this.guessedLetters.indexOf(this.secretWord[i].toLowerCase()) !== -1){
                                 letterCheck++;
                               };
                             }
-                            if(this.guessTotal === MAX_TRIES){
-                             return ["l" ,true];
-                            } else if (letterCheck == this.secretWord.length) {
-                             return ["w", true];
+                            if (letterCheck == this.secretWord.length){
+                              return ["w" ,true];
+                            } else if(this.guessTotal === MAX_TRIES){
+                              return ["l", true];
                             } else {
-                             return [null, false];//this is an array so the boolean index matches
+                              return [null, false];//this is an array so the boolean index matches
                             }
-                           };
+                          };
+
 }
 
 /**
@@ -187,7 +189,8 @@ function setUp(game){
   updateScoreHTML(game);
 }
 
-function playGame(game, gameOn){
+function playGame(game){
+  var gameOn = game.isGameWonOrLost();
   if(!gameOn[1]){
     if(game.isValidGuess(pressed)){
       updateGuessHTML(game, pressed);
@@ -212,14 +215,15 @@ function playGame(game, gameOn){
 var game = new Hangman();
 setUp(game);
 var pressed = "";
-var gameOn = game.isGameWonOrLost();
 document.onkeypress = function(){
                         document.getElementById("hint").innerHTML = "Hint: <br>";
                         document.getElementById("initial").innerHTML = "";
                         updateImage(game);
                         document.onkeypress = function(event){
                                                 pressed = String.fromCharCode(event.charCode);
-                                                gameOn = game.isGameWonOrLost();
-                                                playGame(game, gameOn);
+
+                                                playGame(game);
+
                                                };
+
                      }
