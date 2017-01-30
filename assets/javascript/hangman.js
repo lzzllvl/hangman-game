@@ -6,7 +6,7 @@ var MAX_TRIES = 15;
 function Hangman() {
   this.wins = 0;
   this.losses = 0;
-  this.secretWordArray = ["Snow Crash", "Arrakis", "Dune", "Metaverse", "Yours Truly", "Jules Verne", "Earnest Cline" , "Neal Stephenson", "Frank Hebert", "Ready Player One", "Hiro Protagonist", "Paul Atreides", "Monsieur Arronax", "Captain Nemo", "Andy Weir", "Mark Watney", "Parzival", "The Martian", "Ned Land", "Anathem", "Fraa Erasmas", "Twenty Thousand Leagues Under The Sea", "H G Wells", "The Time Machine", "Doctor Moreau", "Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "Mustapha Mond", "George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth", "SevenEves", "Kath Two", "Dinah MacQuarie" ];
+  this.secretWordArray = ["Duncan Idaho", "Fremen", "White Sky", "Amalthea", "The Baroque Cycle", "Cryptonomicon", "The War of The Worlds","Snow Crash", "Arrakis", "Dune", "Metaverse", "Yours Truly", "Jules Verne", "Ernest Cline" , "Neal Stephenson", "Frank Hebert", "Ready Player One", "Hiro Protagonist", "Paul Atreides", "Monsieur Arronax", "Captain Nemo", "Andy Weir", "Mark Watney", "Parzival", "Aech","The Martian", "Ned Land", "Anathem", "Twenty Thousand Leagues Under The Sea", "H G Wells", "The Time Machine", "Doctor Moreau", "Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth", "SevenEves", "Kath Two", "Dinah MacQuarie" ];
   this.secretWord = "";
   this.guessTotal = 0;
   this.guessedLetters = [" ",]; // the space is needed for isGameWonOrLost()
@@ -72,13 +72,14 @@ function Hangman() {
 
 var imageCategories = {
     snow: ["Snow Crash", "Metaverse", "Yours Truly", "Hiro Protagonist"],
-    neal: ["Neal Stephenson", "Anathem", "Fraa Erasmas", "SevenEves", "Kath Two", "Dinah MacQuarie"],
-    dune: ["Arrakis", "Dune", "Frank Hebert", "Paul Atreides"],
+    neal: ["Neal Stephenson", "Anathem", "The Baroque Cycle", "Cryptonomicon"],
+    seven:["SevenEves", "Kath Two", "Dinah MacQuarie", "White Sky", "Amalthea"],
+    dune: ["Arrakis", "Dune", "Frank Hebert", "Paul Atreides", "Duncan Idaho", "Fremen"],
     twenty: ["Jules Verne", "Monsieur Arronax", "Captain Nemo", "Ned Land", "Twenty Thousand Leagues Under The Sea"],
-    ready: ["Ready Player One",  "Parzival", "Earnest Cline"],
+    ready: ["Ready Player One",  "Parzival", "Ernest Cline", "Aech"],
     martian: ["Andy Weir", "Mark Watney",  "The Martian"],
-    wells : ["H G Wells", "The Time Machine", "Doctor Moreau"],
-    bravenewworld: ["Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx", "Mustapha Mond"],
+    wells : ["H G Wells", "The Time Machine", "Doctor Moreau", "The War of The Worlds"],
+    bravenewworld: ["Aldous Huxley", "Brave New World", "Lenina Crowne", "Bernard Marx"],
     george: ["George Orwell", "Airstrip One", "Newspeak", "Winston Smith", "Julia", "Ministry of Truth"],
     find : function(secretWord){
               for(key in this) {
@@ -109,6 +110,8 @@ function updateImage(game){
     document.getElementById("image").setAttribute('src', 'assets/images/bravenewworld.jpg');
   } else if (key == 'george'){
     document.getElementById("image").setAttribute('src', 'assets/images/1984.jpg');
+  } else if (key == 'seven'){
+    document.getElementById("image").setAttribute('src', 'assets/images/seven.jpg')
   }
 }
 
